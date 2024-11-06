@@ -8,7 +8,7 @@
 
 [\[Code\]](https://github.com/tencent/Hunyuan3D-1) 
 [\[Huggingface\]](https://huggingface.co/tencent/Hunyuan3D-1) 
-[\[Report\]](https://3d.hunyuan.tencent.com/hunyuan3d.pdf) 
+[\[Report\]](https://arxiv.org/pdf/2411.02293) 
 
 
 ## 🔥🔥🔥 News!!
@@ -174,16 +174,16 @@ Output views are a fixed set of camera poses:
 + Azimuth (relative to input view): `+0, +60, +120, +180, +240, +300`.
 
 
-<!-- ## Citation
+## Citation
 
 If you found this repository helpful, please cite our report:
 ```bibtex
-@misc{xxx_todo,
-      title={Hunyuan3D-1.0: First Unified Framework for Text-to-3D and Image-to-3D Generation}, 
-      author={},
-      year={2024},
-      eprint={},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@misc{yang2024tencent,
+    title={Tencent Hunyuan3D-1.0: A Unified Framework for Text-to-3D and Image-to-3D Generation},
+    author={Xianghui Yang and Huiwen Shi and Bowen Zhang and Fan Yang and Jiacheng Wang and Hongxu Zhao and Xinhai Liu and Xinzhou Wang and Qingxiang Lin and Jiaao Yu and Lifu Wang and Zhuo Chen and Sicong Liu and Yuhong Liu and Yong Yang and Di Wang and Jie Jiang and Chunchao Guo},
+    year={2024},
+    eprint={2411.02293},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
 }
-``` -->
+```
