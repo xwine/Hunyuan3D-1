@@ -1,0 +1,24 @@
+--find-links https://download.pytorch.org/whl/cu118
+torch==2.2.0
+torchvision==0.17.0
+diffusers
+numpy==1.26.4
+transformers
+rembg
+tqdm
+omegaconf
+matplotlib
+opencv-python
+imageio
+jaxtyping
+einops
+SentencePiece
+accelerate
+trimesh
+PyMCubes
+xatlas
+libigl
+git+https://github.com/facebookresearch/pytorch3d@stable
+git+https://github.com/NVlabs/nvdiffrast
+open3d
+ninja

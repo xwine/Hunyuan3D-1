@@ -6,9 +6,13 @@
 
 # Tencent Hunyuan3D-1.0: A Unified Framework for Text-to-3D and Image-to-3D Generation
 
-[\[Code\]](https://github.com/tencent/Hunyuan3D-1) 
-[\[Huggingface\]](https://huggingface.co/tencent/Hunyuan3D-1) 
-[\[Report\]](https://arxiv.org/pdf/2411.02293) 
+<div align="center">
+  <a href="https://github.com/tencent/Hunyuan3D-1"><img src="https://img.shields.io/static/v1?label=Code&message=Github&color=blue&logo=github-pages"></a> &ensp;
+  <a href="https://3d.hunyuan.tencent.com"><img src="https://img.shields.io/static/v1?label=Homepage&message=Tencent Hunyuan3D&color=blue&logo=github-pages"></a> &ensp;
+  <a href="https://arxiv.org/pdf/2411.02293"><img src="https://img.shields.io/static/v1?label=Tech Report&message=Arxiv&color=red&logo=arxiv"></a> &ensp;
+  <a href="https://huggingface.co/Tencent/Hunyuan3D-1"><img src="https://img.shields.io/static/v1?label=Checkpoints&message=HuggingFace&color=yellow"></a> &ensp;
+  <a href="https://huggingface.co/spaces/Tencent/Hunyuan3D-1"><img src="https://img.shields.io/static/v1?label=Demo&message=HuggingFace&color=yellow"></a> &ensp;
+</div>
 
 
 ## 🔥🔥🔥 News!!
@@ -72,20 +76,42 @@ cd Hunyuan3D-1
 
 We provide an env_install.sh script file for setting up environment. 
 
-python3.9 and CUDA11.7+ (recommended)
 ```
-conda create -n hunyuan3d-1-py39 python=3.9
-conda activate hunyuan3d-1-py39
-pip install torch==2.2.0 torchvision==0.17.0 --index-url https://download.pytorch.org/whl/cu118
+# step 1, create conda env
+conda create -n hunyuan3d-1 python=3.9 or 3.10 or 3.11 or 3.12
+conda activate hunyuan3d-1
+
+# step 2. install torch realated package
+which pip # check pip corresponds to python
+
+# modify the cuda version according to your machine (recommended)
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+
+# step 3. install other packages
 bash env_install.sh
 ```
-or python3.11 and CUDA12.1+ see [link](https://github.com/Tencent/Hunyuan3D-1/issues/9#issuecomment-2458695670)
+<details>
+<summary>💡Other tips for envrionment installation</summary>
+    
+Optionally, you can install xformers or flash_attn to acclerate computation:
+
 ```
-conda create -n hunyuan3d-1-py311 python=3.11
-conda activate hunyuan3d-1-py311
-pip install torch torchvision xformers --index-url https://download.pytorch.org/whl/cu121 
-bash env_install.sh
+pip install xformers --index-url https://download.pytorch.org/whl/cu121
 ```
+```
+pip install flash_attn
+```
+
+Most environment errors are caused by a mismatch between machine and packages. You can try manually specifying the version, as shown in the following successful cases:
+```
+# python3.9
+pip install torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cu118 
+```
+
+when install pytorch3d, the gcc version is preferably greater than 9, and the gpu driver should not be too old.
+
+</details>
+
 #### Download Pretrained Models
 
 The models are available at [https://huggingface.co/tencent/Hunyuan3D-1](https://huggingface.co/tencent/Hunyuan3D-1):
@@ -155,7 +181,7 @@ bash scripts/image_to_3d_demo.sh
 bash scripts/image_to_3d_fast_demo.sh 
 ```
 
-This example requires ~40GB VRAM to run.
+This example requires ~22GB VRAM to run.
 
 #### Using Gradio
 
