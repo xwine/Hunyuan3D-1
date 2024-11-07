@@ -69,13 +69,13 @@ If HunYuan3D-1 is helpful, please help to ⭐ the <a href='https://github.com/te
 📝 **Citation**
 If you find our work useful for your research or applications, please cite using this bibtex:
 ```bibtex
-@misc{xxx,
-      title={Hunyuan3D-1.0: First Unified Framework for Text-to-3D and Image-to-3D Generation}, 
-      author={},
-      year={2024},
-      eprint={},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@misc{yang2024tencent,
+    title={Tencent Hunyuan3D-1.0: A Unified Framework for Text-to-3D and Image-to-3D Generation},
+    author={Xianghui Yang and Huiwen Shi and Bowen Zhang and Fan Yang and Jiacheng Wang and Hongxu Zhao and Xinhai Liu and Xinzhou Wang and Qingxiang Lin and Jiaao Yu and Lifu Wang and Zhuo Chen and Sicong Liu and Yuhong Liu and Yong Yang and Di Wang and Jie Jiang and Chunchao Guo},
+    year={2024},
+    eprint={2411.02293},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
 }
 ```
 """

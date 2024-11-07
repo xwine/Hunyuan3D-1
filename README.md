@@ -72,13 +72,20 @@ cd Hunyuan3D-1
 
 We provide an env_install.sh script file for setting up environment. 
 
-We recommend python3.9 and CUDA11.7+
+python3.9 and CUDA11.7+ (recommended)
 ```
-conda create -n hunyuan3d-1 python=3.9
-conda activate hunyuan3d-1
+conda create -n hunyuan3d-1-py39 python=3.9
+conda activate hunyuan3d-1-py39
+pip install torch==2.2.0 torchvision==0.17.0 --index-url https://download.pytorch.org/whl/cu118
 bash env_install.sh
 ```
-
+or python3.11 and CUDA12.1+ see [link](https://github.com/Tencent/Hunyuan3D-1/issues/9#issuecomment-2458695670)
+```
+conda create -n hunyuan3d-1-py311 python=3.11
+conda activate hunyuan3d-1-py311
+pip install torch torchvision xformers --index-url https://download.pytorch.org/whl/cu121 
+bash env_install.sh
+```
 #### Download Pretrained Models
 
 The models are available at [https://huggingface.co/tencent/Hunyuan3D-1](https://huggingface.co/tencent/Hunyuan3D-1):

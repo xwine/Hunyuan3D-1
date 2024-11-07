@@ -209,7 +209,7 @@ class SVRMModel(torch.nn.Module):
         t_tex_idx    = torch.from_numpy(t_tex_idx).to(self.device)    
         uv_clip      = torch.from_numpy(vtx_tex * 2.0 - 1.0).to(self.device) 
 
-         # rasterize
+        # rasterize
         ctx = NVDiffRasterizerContext(context_type, cur_triplane.device) if ctx is None else ctx
         rast = ctx.rasterize_one(
             torch.cat([
@@ -260,4 +260,5 @@ class SVRMModel(torch.nn.Module):
         cv2.imwrite(f'{out_dir}/texture.png', img[..., [2, 1, 0]])   
         mesh = trimesh.load_mesh(f'{out_dir}/mesh.obj')
         mesh.export(f'{out_dir}/mesh.glb', file_type='glb')
+        print(f"=====> generate mesh with texture shading time: {time.time() - st}")
   

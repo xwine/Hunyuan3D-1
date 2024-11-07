@@ -1,7 +1,3 @@
-# python3.9 test success
-
-pip install torch==2.2.0 torchvision==0.17.0 --index-url https://download.pytorch.org/whl/cu118
-
 pip install diffusers transformers
 
 pip install rembg tqdm omegaconf matplotlib opencv-python imageio jaxtyping einops 
@@ -13,3 +9,5 @@ pip install git+https://github.com/facebookresearch/pytorch3d
 pip install git+https://github.com/NVlabs/nvdiffrast
 
 pip install open3d
+
+pip install gradio
