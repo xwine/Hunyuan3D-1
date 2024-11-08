@@ -35,6 +35,23 @@ text_to_image_model = None
 gif_renderer = None
 
 
+# 在项目启动时实例化模型
+def initialize_models():
+    global image_to_views_model, views_to_mesh_model, text_to_image_model, gif_renderer
+    device = os.getenv('CUDA_DEVICE_ENV', "cuda:1")
+    use_lite = False
+    mv23d_cfg_path = './svrm/configs/svrm.yaml'
+    mv23d_ckt_path = 'weights/svrm/svrm.safetensors'
+    text2image_path = 'weights/hunyuanDiT'
+    image_to_views_model = Image2Views(device=device, use_lite=use_lite)
+    views_to_mesh_model = Views2Mesh(mv23d_cfg_path, mv23d_ckt_path, device, use_lite=use_lite)
+    text_to_image_model = Text2Image(pretrain=text2image_path, device=device, save_memory=False)
+    gif_renderer = GifRenderer(device=device)
+
+
+initialize_models()
+
+
 @app.route('/generate3d', methods=['POST'])
 def generate_3d():
     data = request.json
@@ -57,18 +74,6 @@ def generate_3d():
 
     assert not (text_prompt and image_prompt), "Text and image can only be given to one"
     assert text_prompt or image_prompt, "Text and image can only be given to one"
-
-    global image_to_views_model, views_to_mesh_model, text_to_image_model, gif_renderer
-    image_to_views_model = Image2Views(device=device, use_lite=use_lite)
-    views_to_mesh_model = Views2Mesh(mv23d_cfg_path, mv23d_ckt_path, device, use_lite=use_lite)
-    if text_prompt:
-        text_to_image_model = Text2Image(
-            pretrain=text2image_path,
-            device=device,
-            save_memory=save_memory
-        )
-    if do_render:
-        gif_renderer = GifRenderer(device=device)
 
     os.makedirs(save_folder, exist_ok=True)
 
