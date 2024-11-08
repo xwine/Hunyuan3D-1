@@ -1,33 +1,28 @@
-# Open Source Model Licensed under the Apache License Version 2.0 and Other Licenses of the Third-Party Components therein:
-# The below Model in this distribution may have been modified by THL A29 Limited ("Tencent Modifications"). All Tencent Modifications are Copyright (C) 2024 THL A29 Limited.
+# 开源模型根据Apache许可证版本2.0和其中第三方组件的其他许可证授权：
+# 本分发中的以下模型可能已被THL A29 Limited（“腾讯修改”）修改。所有腾讯修改版权归THL A29 Limited 2024年所有。
 
-# Copyright (C) 2024 THL A29 Limited, a Tencent company.  All rights reserved.
-# The below software and/or models in this distribution may have been
-# modified by THL A29 Limited ("Tencent Modifications").
-# All Tencent Modifications are Copyright (C) THL A29 Limited.
+# 版权归2024年THL A29 Limited，腾讯公司所有。保留所有权利。
+# 本分发中的以下软件和/或模型可能已被THL A29 Limited（“腾讯修改”）修改。
+# 所有腾讯修改版权归THL A29 Limited所有。
 
-# Hunyuan 3D is licensed under the TENCENT HUNYUAN NON-COMMERCIAL LICENSE AGREEMENT
-# except for the third-party components listed below.
-# Hunyuan 3D does not impose any additional limitations beyond what is outlined
-# in the repsective licenses of these third-party components.
-# Users must comply with all terms and conditions of original licenses of these third-party
-# components and must ensure that the usage of the third party components adheres to
-# all relevant laws and regulations.
+# Hunyuan 3D根据TENCENT HUNYUAN非商业许可证协议授权，
+# 除了下面列出的第三方组件。
+# Hunyuan 3D不对这些第三方组件的各自许可证中概述的内容施加任何额外限制。
+# 用户必须遵守这些第三方组件原始许可证的所有条款和条件，
+# 并且必须确保第三方组件的使用符合所有相关法律法规。
 
-# For avoidance of doubts, Hunyuan 3D means the large language models and
-# their software and algorithms, including trained model weights, parameters (including
-# optimizer states), machine-learning model code, inference-enabling code, training-enabling code,
-# fine-tuning enabling code and other elements of the foregoing made publicly available
-# by Tencent in accordance with TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT.l
+# 为避免疑问，Hunyuan 3D是指大型语言模型及其软件和算法，
+# 包括训练模型权重、参数（包括优化器状态）、机器学习模型代码、推理启用代码、训练启用代码、
+# 微调启用代码以及腾讯根据TENCENT HUNYUAN社区许可证协议公开提供的上述内容的其他元素。
 
 import os
 from PIL import Image
-from flask import Flask, request, jsonify
+from flask import Flask, request, send_file
 from infer import Text2Image, Removebg, Image2Views, Views2Mesh, GifRenderer
 
 app = Flask(__name__)
 
-# Initialize models
+# 初始化模型
 rembg_model = Removebg()
 image_to_views_model = None
 views_to_mesh_model = None
@@ -77,7 +72,7 @@ def generate_3d():
 
     os.makedirs(save_folder, exist_ok=True)
 
-    # stage 1, text to image
+    # 阶段1，文字转图像
     if text_prompt:
         res_rgb_pil = text_to_image_model(
             text_prompt,
@@ -88,11 +83,11 @@ def generate_3d():
     elif image_prompt:
         res_rgb_pil = Image.open(image_prompt)
 
-    # stage 2, remove background
+    # 阶段2，去除背景
     res_rgba_pil = rembg_model(res_rgb_pil)
     res_rgba_pil.save(os.path.join(save_folder, "img_nobg.png"))
 
-    # stage 3, image to views
+    # 阶段3，图像转视图
     (views_grid_pil, cond_img), view_pil_list = image_to_views_model(
         res_rgba_pil,
         seed=gen_seed,
@@ -100,7 +95,7 @@ def generate_3d():
     )
     views_grid_pil.save(os.path.join(save_folder, "views.jpg"))
 
-    # stage 4, views to mesh
+    # 阶段4，视图转网格
     views_to_mesh_model(
         views_grid_pil,
         cond_img,
@@ -110,14 +105,14 @@ def generate_3d():
         do_texture_mapping=do_texture_mapping
     )
 
-    # stage 5, render gif
+    # 阶段5，渲染gif
     if do_render:
         gif_renderer(
             os.path.join(save_folder, 'mesh.obj'),
             gif_dst_path=os.path.join(save_folder, 'output.gif'),
         )
 
-    return jsonify({"message": "3D generation completed", "save_folder": save_folder})
+    return send_file(os.path.join(save_folder, 'mesh.obj'), as_attachment=True)
 
 
 if __name__ == "__main__":
