@@ -35,7 +35,7 @@ from svrm.predictor import MV23DPredictor
 
 
 class Views2Mesh():
-    def __init__(self, mv23d_cfg_path, mv23d_ckt_path, device="cuda:0", use_lite=False):
+    def __init__(self, mv23d_cfg_path, mv23d_ckt_path, device=os.getenv('CUDA_DEVICE_ENV', "cuda:1"), use_lite=False):
         '''
             mv23d_cfg_path: config yaml file 
             mv23d_ckt_path: path to ckpt

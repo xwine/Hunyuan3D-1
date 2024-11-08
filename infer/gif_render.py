@@ -1,5 +1,6 @@
 # Open Source Model Licensed under the Apache License Version 2.0 and Other Licenses of the Third-Party Components therein:
 # The below Model in this distribution may have been modified by THL A29 Limited ("Tencent Modifications"). All Tencent Modifications are Copyright (C) 2024 THL A29 Limited.
+import os
 
 # Copyright (C) 2024 THL A29 Limited, a Tencent company.  All rights reserved. 
 # The below software and/or models in this distribution may have been 
@@ -27,7 +28,7 @@ class GifRenderer():
     '''
         render frame(s) of mesh using pytorch3d
     '''
-    def __init__(self, device="cuda:0"):
+    def __init__(self, device=os.getenv('CUDA_DEVICE_ENV', "cuda:1")):
         self.device = device
 
     @timing_decorator("gif render")

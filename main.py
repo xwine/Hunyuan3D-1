@@ -52,7 +52,7 @@ def get_args():
         "--image_prompt", default="", type=str
     )
     parser.add_argument(
-        "--device", default="cuda:0", type=str
+        "--device", default=os.getenv('CUDA_DEVICE_ENV', "cuda:1"), type=str
     )
     parser.add_argument(
         "--t2i_seed", default=0, type=int

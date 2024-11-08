@@ -44,7 +44,7 @@ def save_gif(pils, save_path, df=False):
     
 
 class Image2Views():
-    def __init__(self, device="cuda:0", use_lite=False):
+    def __init__(self, device=os.getenv('CUDA_DEVICE_ENV', "cuda:1"), use_lite=False):
         self.device = device
         if use_lite:
             self.pipe = Hunyuan3d_MVD_Lite_Pipeline.from_pretrained(

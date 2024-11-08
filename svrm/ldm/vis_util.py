@@ -35,7 +35,7 @@ def render(
     gif_dst_path='', 
     n_views=120, 
     fps=30, 
-    device="cuda:0", 
+    device=os.getenv('CUDA_DEVICE_ENV', "cuda:1"),
     rgb=False
 ):
     '''

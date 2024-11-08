@@ -1,5 +1,6 @@
 # Open Source Model Licensed under the Apache License Version 2.0 and Other Licenses of the Third-Party Components therein:
 # The below Model in this distribution may have been modified by THL A29 Limited ("Tencent Modifications"). All Tencent Modifications are Copyright (C) 2024 THL A29 Limited.
+import os
 
 # Copyright (C) 2024 THL A29 Limited, a Tencent company.  All rights reserved. 
 # The below software and/or models in this distribution may have been 
@@ -26,7 +27,7 @@ from .utils import get_parameter_number, set_parameter_grad_false
 from diffusers import HunyuanDiTPipeline, AutoPipelineForText2Image
 
 class Text2Image():
-    def __init__(self, pretrain="weights/hunyuanDiT", device="cuda:0", save_memory=False):
+    def __init__(self, pretrain="weights/hunyuanDiT", device=os.getenv('CUDA_DEVICE_ENV', "cuda:1"), save_memory=False):
         '''
             save_memory: if GPU memory is low, can set it
         '''

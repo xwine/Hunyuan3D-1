@@ -42,7 +42,7 @@ parser.add_argument("--mv23d_cfg_path", default="./svrm/configs/svrm.yaml", type
 parser.add_argument("--mv23d_ckt_path", default="weights/svrm/svrm.safetensors", type=str)
 parser.add_argument("--text2image_path", default="weights/hunyuanDiT", type=str)
 parser.add_argument("--save_memory", default=False, action="store_true")
-parser.add_argument("--device", default="cuda:0", type=str)
+parser.add_argument("--device", default=os.getenv('CUDA_DEVICE_ENV', "cuda:1"), type=str)
 args = parser.parse_args()
 
 ################################################################
