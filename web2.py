@@ -1,8 +1,8 @@
 # 开源模型根据Apache许可证版本2.0和其中第三方组件的其他许可证授权：
-# 本分发中的以下模型可能已被THL A29 Limited（“腾讯修改”）修改。所有腾讯修改版权归THL A29 Limited 2024年所有。
+# 本分发中的以下模型可能已被THL A29 Limited（"腾讯修改"）修改。所有腾讯修改版权归THL A29 Limited 2024年所有。
 
 # 版权归2024年THL A29 Limited，腾讯公司所有。保留所有权利。
-# 本分发中的以下软件和/或模型可能已被THL A29 Limited（“腾讯修改”）修改。
+# 本分发中的以下软件和/或模型可能已被THL A29 Limited（"腾讯修改"）修改。
 # 所有腾讯修改版权归THL A29 Limited所有。
 
 # Hunyuan 3D根据TENCENT HUNYUAN非商业许可证协议授权，
@@ -114,7 +114,7 @@ def generate_3d():
 @app.route('/view3d/<filename>', methods=['GET'])
 def view_3d(filename):
     obj_path = os.path.join('./outputs/test/', filename)
-    html_content = f"""
+    html_content = '''
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -122,8 +122,8 @@ def view_3d(filename):
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>3D Object Viewer</title>
         <style>
-            body {{ margin: 0; }}
-            canvas {{ display: block; }}
+            body { margin: 0; }
+            canvas { display: block; }
         </style>
     </head>
     <body>
@@ -144,7 +144,7 @@ def view_3d(filename):
                 scene.add(light);
 
                 objLoader = new THREE.OBJLoader();
-                objLoader.load('{obj_path}', function (object) {
+                objLoader.load("''' + obj_path + '''", function (object) {
                     scene.add(object);
                     object.position.y -= 60;
                 });
@@ -162,7 +162,7 @@ def view_3d(filename):
         </script>
     </body>
     </html>
-    """
+    '''
     return render_template_string(html_content)
 
 if __name__ == "__main__":
