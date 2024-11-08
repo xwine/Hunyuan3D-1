@@ -17,7 +17,7 @@
 
 import os
 from PIL import Image
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string, send_from_directory, abort
 from infer import Text2Image, Removebg, Image2Views, Views2Mesh, GifRenderer
 
 app = Flask(__name__)
@@ -28,6 +28,7 @@ image_to_views_model = None
 views_to_mesh_model = None
 text_to_image_model = None
 gif_renderer = None
+
 
 # 在项目启动时实例化模型
 def initialize_models():
@@ -42,7 +43,9 @@ def initialize_models():
     text_to_image_model = Text2Image(pretrain=text2image_path, device=device, save_memory=False)
     gif_renderer = GifRenderer(device=device)
 
+
 initialize_models()
+
 
 @app.route('/generate3d', methods=['POST'])
 def generate_3d():
@@ -111,9 +114,10 @@ def generate_3d():
 
     return jsonify({"message": "3D generation completed", "url": f"/view3d/mesh.obj"})
 
+
 @app.route('/view3d/<filename>', methods=['GET'])
 def view_3d(filename):
-    obj_path = os.path.join('./outputs/test/', filename)
+    obj_url = f"/serve_obj/{filename}"
     html_content = '''
     <!DOCTYPE html>
     <html lang="en">
@@ -129,7 +133,7 @@ def view_3d(filename):
     <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-        <script>
+                <script>
             let scene, camera, renderer, objLoader;
 
             function init() {
@@ -144,7 +148,7 @@ def view_3d(filename):
                 scene.add(light);
 
                 objLoader = new THREE.OBJLoader();
-                objLoader.load("''' + obj_path + '''", function (object) {
+                objLoader.load("''' + obj_url + '''", function (object) {
                     scene.add(object);
                     object.position.y -= 60;
                 });
@@ -164,6 +168,16 @@ def view_3d(filename):
     </html>
     '''
     return render_template_string(html_content)
+
+
+@app.route('/serve_obj/<path:filename>', methods=['GET'])
+def serve_obj(filename):
+    directory = os.path.join(os.getcwd(), 'outputs/test')
+    if os.path.isfile(os.path.join(directory, filename)):
+        return send_from_directory(directory, filename)
+    else:
+        abort(404)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
