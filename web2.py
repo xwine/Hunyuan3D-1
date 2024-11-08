@@ -57,7 +57,7 @@ def generate_3d():
     mv23d_cfg_path = data.get('mv23d_cfg_path', './svrm/configs/svrm.yaml')
     mv23d_ckt_path = data.get('mv23d_ckt_path', 'weights/svrm/svrm.safetensors')
     text2image_path = data.get('text2image_path', 'weights/hunyuanDiT')
-    save_folder = data.get('save_folder', './outputs/test/')
+    save_folder = data.get('save_folder', './static/')
     t2i_seed = data.get('t2i_seed', 0)
     t2i_steps = data.get('t2i_steps', 25)
     gen_seed = data.get('gen_seed', 0)
@@ -115,68 +115,11 @@ def generate_3d():
     return jsonify({"message": "3D generation completed", "url": f"/view3d/mesh.obj"})
 
 
-@app.route('/view3d/<filename>', methods=['GET'])
+@app.route('/view3d/<filename>')
 def view_3d(filename):
-    obj_url = f"/serve_obj/{filename}"
-    html_content = '''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>3D Object Viewer</title>
-        <style>
-            body { margin: 0; }
-            canvas { display: block; }
-        </style>
-    </head>
-    <body>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-                <script>
-            let scene, camera, renderer, objLoader;
-
-            function init() {
-                scene = new THREE.Scene();
-                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                renderer = new THREE.WebGLRenderer();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                document.body.appendChild(renderer.domElement);
-
-                const light = new THREE.DirectionalLight(0xffffff, 1);
-                light.position.set(1, 1, 1).normalize();
-                scene.add(light);
-
-                objLoader = new THREE.OBJLoader();
-                objLoader.load("''' + obj_url + '''", function (object) {
-                    scene.add(object);
-                    object.position.y -= 60;
-                });
-
-                camera.position.z = 100;
-            }
-
-            function animate() {
-                requestAnimationFrame(animate);
-                renderer.render(scene, camera);
-            }
-
-            init();
-            animate();
-        </script>
-    </body>
-    </html>
-    '''
-    return render_template_string(html_content)
-
-
-@app.route('/serve_obj/<path:filename>', methods=['GET'])
-def serve_obj(filename):
-    directory = os.path.join(os.getcwd(), 'outputs/test')
-    if os.path.isfile(os.path.join(directory, filename)):
-        return send_from_directory(directory, filename)
-    else:
-        abort(404)
+    obj_url = f"static/{filename}"
+    # 从 URL 参数获取文件路径（默认为 static/model.obj）
+    return render_template('index.html', file_path=obj_url)
 
 
 if __name__ == "__main__":
